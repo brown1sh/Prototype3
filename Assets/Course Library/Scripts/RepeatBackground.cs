@@ -10,17 +10,18 @@ public class RepeatBackground : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startPos = transform.position;
+        startPos = transform.position; // set startPos to the background's position upon opening the game
 
-        repeatWidth = GetComponent<BoxCollider>().size.x / 2;
+        repeatWidth = GetComponent<BoxCollider>().size.x / 2; // sets repeat width to half of the backgrounds size using a box collider for it's size
     }
 
     // Update is called once per frame
     void Update()
     {
+        // if the backgrounds location reaches a certain point
         if(transform.position.x < (startPos.x - repeatWidth)) 
         {
-            transform.position = startPos;
+            transform.position = startPos; // reset the background to it's start location
         }
     }
 }

@@ -12,10 +12,14 @@ public class PlayerController : MonoBehaviour
 
     public bool gameOver = false;
 
+    private Animator playerAnim;
+
     // Start is called before the first frame update
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
+        playerAnim = GetComponent<Animator>();
+
         Physics.gravity *= gravityModifier;
         
     }
@@ -24,25 +28,29 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // if space is held and isOnGround bool is true
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround == true)
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround == true && !gameOver)
         {
             playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // add a jump force 
             isOnGround = false; // set the isOnGround bool to false
+            playerAnim.SetTrigger("Jump_trig");
         }
        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-
+        // if the player collides with ground
         if(collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
         }
+        // if the player collides with obstacle
         else if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Game Over");
             gameOver = true;
+            playerAnim.SetBool("Death_b", true);
+            playerAnim.SetInteger("DeathType_int", 1);
         }
     }
 }
